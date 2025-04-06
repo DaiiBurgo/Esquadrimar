@@ -1,6 +1,6 @@
 # Portal Esquadrimar
 
-Projeto integrador para faculdade - Portal da empresa Esquadrimar
+Projeto integrador da Univesp - Eixo Tecnologia da Informação e Computação - Portal da empresa Esquadrimar
 
 ## Visão Geral
 
@@ -106,8 +106,10 @@ Este projeto foi desenvolvido como parte de um projeto integrador de faculdade p
 
 ## Autores
 
-- [Seu Nome]
-- [Outros Membros do Grupo]
+- [Daii Burgo]
+
+## Membros do grupo
+- [adcionar membros]
 
 ## Licença
 
