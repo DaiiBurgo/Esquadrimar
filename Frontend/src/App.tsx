@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
+import Login from './pages/Login';
 
 // Tema personalizado
 const theme = createTheme({
@@ -75,11 +76,11 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contato" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
             {/* Adicione outras rotas conforme necessário:
             <Route path="/sobre" element={<About />} />
             <Route path="/servicos" element={<Services />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
             */}
           </Routes>
