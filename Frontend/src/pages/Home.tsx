@@ -16,6 +16,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import BuildIcon from '@mui/icons-material/Build';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import WeekendIcon from '@mui/icons-material/Weekend';
+import marcenariaImg from '../assets/Marcenaria.jpeg';
+import serralheriaImg from '../assets/Serralheria.jpeg';
+import marmorariaImg from '../assets/Marmoraria.jpeg';
 
 // Imagens para o banner - substitua pelos caminhos reais
 const bannerImage = 'https://source.unsplash.com/random/1400x600/?architecture,furniture';
@@ -27,7 +30,7 @@ const services = [
     title: 'Marcenaria',
     description: 'Criamos móveis e estruturas de madeira personalizados, com acabamento impecável e design exclusivo.',
     icon: <WeekendIcon fontSize="large" color="primary" />,
-    image: 'https://source.unsplash.com/random/600x400/?woodworking',
+    image: marcenariaImg,
     link: '/servicos/marcenaria'
   },
   {
@@ -35,7 +38,7 @@ const services = [
     title: 'Serralheria',
     description: 'Fabricamos produtos em metal como grades, portões, estruturas, escadas e muito mais, com resistência e durabilidade.',
     icon: <BuildIcon fontSize="large" color="primary" />,
-    image: 'https://source.unsplash.com/random/600x400/?metalwork',
+    image: serralheriaImg,
     link: '/servicos/serralheria'
   },
   {
@@ -43,7 +46,7 @@ const services = [
     title: 'Marmoraria',
     description: 'Trabalhamos com mármores, granitos e outras pedras para criar bancadas, pisos, revestimentos e peças exclusivas.',
     icon: <HandymanIcon fontSize="large" color="primary" />,
-    image: 'https://source.unsplash.com/random/600x400/?marble',
+    image: marmorariaImg,
     link: '/servicos/marmoraria'
   }
 ];
