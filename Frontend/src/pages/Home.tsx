@@ -36,7 +36,7 @@ const services = [
   {
     id: 2,
     title: 'Serralheria',
-    description: 'Fabricamos produtos em metal como grades, portões, estruturas, escadas e muito mais, com resistência e durabilidade.',
+    description: 'Fabricamos produtos em aluminio como janelas, persianas, portas, grades, portões, muito mais, com resistência e durabilidade.',
     icon: <BuildIcon fontSize="large" color="primary" />,
     image: serralheriaImg,
     link: '/servicos/serralheria'
@@ -44,7 +44,7 @@ const services = [
   {
     id: 3,
     title: 'Marmoraria',
-    description: 'Trabalhamos com mármores, granitos e outras pedras para criar bancadas, pisos, revestimentos e peças exclusivas.',
+    description: 'Trabalhamos com mármores, granitos, laminas ultra-compactas e outras pedras para criar bancadas, pisos, revestimentos e peças exclusivas.',
     icon: <HandymanIcon fontSize="large" color="primary" />,
     image: marmorariaImg,
     link: '/servicos/marmoraria'
@@ -140,9 +140,10 @@ const Home: React.FC = () => {
           </Typography>
           <Divider sx={{ width: '80px', margin: '0 auto', mb: 3, borderWidth: 2 }} />
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: '800px', mx: 'auto' }}>
-            Há mais de 15 anos no mercado, a Esquadrimar é especializada em soluções completas em marcenaria, 
-            serralheria e marmoraria. Atendemos projetos residenciais e comerciais com qualidade, pontualidade e 
-            compromisso, transformando ideias em realidade.
+             Prestando um serviço de altissimo padrão, a Esquadrimar entrega a seus clientes peças unicas, 
+            feitas com os melhores produtos relacionados a marmoraria, serralheria e marcenaria. Um trabalho 
+            de excelencia que vem se ampliando desde a sua criação em 2006, e hoje já é reconhecida como uma 
+            das maiores empresas do ramo na Baixada Santista.
           </Typography>
           <Button 
             component={RouterLink} 
