@@ -16,11 +16,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import BuildIcon from '@mui/icons-material/Build';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import WeekendIcon from '@mui/icons-material/Weekend';
-import marcenariaImg from '../assets/Marcenaria.jpeg';
-import serralheriaImg from '../assets/Serralheria.jpeg';
-import marmorariaImg from '../assets/Marmoraria.jpeg';
+
 // Caminho do vídeo no diretório público em vez de importar
 const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-video.mp4`;
+
+// URLs para imagens temporárias de serviços (em vez de importar arquivos locais inexistentes)
+const marcenariaImgUrl = `${process.env.PUBLIC_URL}/assets/marcenaria-temp.jpg`;
+const serralheriaImgUrl = `${process.env.PUBLIC_URL}/assets/serralheria-temp.jpg`;
+const marmorariaImgUrl = `${process.env.PUBLIC_URL}/assets/marmoraria-temp.jpg`;
 
 // Imagens para os serviços - substitua pelos caminhos reais
 const services = [
@@ -29,7 +32,7 @@ const services = [
     title: 'Marcenaria',
     description: 'Criamos móveis e estruturas de madeira personalizados, com acabamento impecável e design exclusivo.',
     icon: <WeekendIcon fontSize="large" color="primary" />,
-    image: marcenariaImg,
+    image: marcenariaImgUrl,
     link: '/servicos/marcenaria'
   },
   {
@@ -37,7 +40,7 @@ const services = [
     title: 'Serralheria',
     description: 'Fabricamos produtos em aluminio como janelas, persianas, portas, grades, portões, muito mais, com resistência e durabilidade.',
     icon: <BuildIcon fontSize="large" color="primary" />,
-    image: serralheriaImg,
+    image: serralheriaImgUrl,
     link: '/servicos/serralheria'
   },
   {
@@ -45,7 +48,7 @@ const services = [
     title: 'Marmoraria',
     description: 'Trabalhamos com mármores, granitos, laminas ultra-compactas e outras pedras para criar bancadas, pisos, revestimentos e peças exclusivas.',
     icon: <HandymanIcon fontSize="large" color="primary" />,
-    image: marmorariaImg,
+    image: marmorariaImgUrl,
     link: '/servicos/marmoraria'
   }
 ];
