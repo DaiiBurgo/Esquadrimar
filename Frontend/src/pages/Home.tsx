@@ -93,18 +93,17 @@ const Home: React.FC = () => {
 
   return (
     <Box>
-      {/* Banner Principal com Vídeo */}
+      {/* Banner Principal com Vídeo (sem textos e botões) */}
       <Box
         sx={{
           position: 'relative',
-          height: { xs: '50vh', md: '70vh' },
-          display: 'flex',
-          alignItems: 'center',
+          height: { xs: '60vh', md: '80vh' },
+          width: '100%',
           overflow: 'hidden',
           mb: 6
         }}
       >
-        {/* Vídeo de fundo */}
+        {/* Vídeo de fundo com ajuste para exibição completa */}
         <Box
           component="video"
           ref={videoRef}
@@ -114,10 +113,13 @@ const Home: React.FC = () => {
           playsInline
           sx={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
+            top: '50%',
+            left: '50%',
+            minWidth: '100%',
+            minHeight: '100%',
+            width: 'auto',
+            height: 'auto',
+            transform: 'translate(-50%, -50%)',
             objectFit: 'cover',
             zIndex: 0
           }}
@@ -126,7 +128,7 @@ const Home: React.FC = () => {
           Seu navegador não suporta vídeos HTML5.
         </Box>
         
-        {/* Overlay escuro para melhorar a legibilidade do texto */}
+        {/* Overlay escuro leve (opcional, mais sutil) */}
         <Box
           sx={{
             position: 'absolute',
@@ -134,59 +136,10 @@ const Home: React.FC = () => {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
             zIndex: 1
           }}
         />
-        
-        {/* Conteúdo do banner */}
-        <Container 
-          maxWidth="lg"
-          sx={{
-            position: 'relative',
-            zIndex: 2
-          }}
-        >
-          <Box sx={{ color: 'white', textAlign: 'center' }}>
-            <Typography variant="h2" component="h1" gutterBottom>
-              Esquadrimar
-            </Typography>
-            <Typography variant="h5" sx={{ mb: 4 }}>
-              Excelência em marcenaria, serralheria e marmoraria
-            </Typography>
-            <Button 
-              variant="contained" 
-              color="primary" 
-              size="large"
-              component={RouterLink}
-              to="/contato"
-              sx={{ 
-                mr: 2, 
-                mb: { xs: 2, sm: 0 },
-                fontSize: '1.1rem',
-                py: 1.5,
-                px: 4
-              }}
-            >
-              Fale Conosco
-            </Button>
-            <Button 
-              variant="outlined" 
-              color="primary"
-              size="large"
-              component={RouterLink}
-              to="/portfolio"
-              sx={{ 
-                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                fontSize: '1.1rem',
-                py: 1.5,
-                px: 4
-              }}
-            >
-              Ver Portfólio
-            </Button>
-          </Box>
-        </Container>
       </Box>
 
       {/* Sobre Nós - Resumo */}
