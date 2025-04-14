@@ -99,7 +99,7 @@ const Home: React.FC = () => {
           position: 'relative',
           height: { xs: '60vh', md: '70vh' },
           width: '100%',
-          backgroundColor: '#0D6C6F', // nova cor de fundo
+          backgroundColor: 'primary.main', // nova cor de fundo #0D6C6F
           overflow: 'hidden',
           mb: 6
         }}
