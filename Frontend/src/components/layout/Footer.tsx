@@ -1,6 +1,12 @@
 import React from 'react';
-import { Box, Container, Grid, Typography, Link, Divider } from '@mui/material';
+import { Box, Container, Grid, Typography, Link, Divider, IconButton, Tooltip, Stack } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+
+// URLs das redes sociais
+const INSTAGRAM_URL = 'https://www.instagram.com/esquadrimar_bertioga/';
+const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5513996227222&text=Olá!%20Vim%20pelo%20site%20da%20Esquadrimar.';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -24,6 +30,49 @@ const Footer: React.FC = () => {
             <Typography variant="body2">
               Especialistas em marcenaria, serralheria e marmoraria com anos de experiência no mercado.
             </Typography>
+            
+            {/* Redes Sociais */}
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="subtitle2" gutterBottom>
+                Siga-nos nas Redes Sociais
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <Tooltip title="Instagram">
+                  <IconButton 
+                    component="a"
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="medium"
+                    sx={{ 
+                      color: 'white',
+                      '&:hover': {
+                        bgcolor: 'rgba(255, 255, 255, 0.2)',
+                      }
+                    }}
+                  >
+                    <InstagramIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="WhatsApp">
+                  <IconButton 
+                    component="a"
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="medium"
+                    sx={{ 
+                      color: 'white',
+                      '&:hover': {
+                        bgcolor: 'rgba(255, 255, 255, 0.2)',
+                      }
+                    }}
+                  >
+                    <WhatsAppIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+            </Box>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography variant="h6" gutterBottom>
@@ -79,18 +128,18 @@ const Footer: React.FC = () => {
               Contato
             </Typography>
             <Typography variant="body2" paragraph>
-              Rua das Marmorarias, 123
+              Avenida Central, Nº 11
               <br />
-              Bairro Industrial
+              Chacaras
               <br />
-              São Paulo - SP
-              <br />
-              CEP: 12345-678
+              Bertioga - SP
             </Typography>
             <Typography variant="body2">
-              Tel: (11) 1234-5678
+              Tel: (13) 3311-7222
               <br />
-              Email: contato@esquadrimar.com.br
+              WhatsApp: (13) 99622-7222
+              <br />
+              Email: financeiro1@esquadrimar.com.br
             </Typography>
           </Grid>
         </Grid>
