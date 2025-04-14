@@ -97,11 +97,13 @@ const Home: React.FC = () => {
       <Box
         sx={{
           position: 'relative',
-          height: { xs: '60vh', md: '80vh' },
+          height: { xs: '60vh', md: '70vh' },
           width: '100%',
+          backgroundColor: '#0D6C6F', // nova cor de fundo
           overflow: 'hidden',
           mb: 6
         }}
+      
       >
         {/* Vídeo de fundo com ajuste para exibição completa */}
         <Box
@@ -113,14 +115,11 @@ const Home: React.FC = () => {
           playsInline
           sx={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            minWidth: '100%',
-            minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-            transform: 'translate(-50%, -50%)',
-            objectFit: 'cover',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
             zIndex: 0
           }}
         >
