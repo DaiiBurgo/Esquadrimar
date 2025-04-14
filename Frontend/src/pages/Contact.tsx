@@ -18,6 +18,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ContactForm from '../components/contact/ContactForm';
+import LocationMap from '../components/map/LocationMap';
 
 const Contact: React.FC = () => {
   return (
@@ -49,7 +50,7 @@ const Contact: React.FC = () => {
                   </ListItemIcon>
                   <ListItemText 
                     primary="Endereço" 
-                    secondary="Rua das Marmorarias, 123, Bairro Industrial, São Paulo - SP, CEP: 12345-678" 
+                    secondary="Avenida Central, Nº 11, Chacaras - Bertioga, São Paulo - SP" 
                   />
                 </ListItem>
                 
@@ -59,7 +60,7 @@ const Contact: React.FC = () => {
                   </ListItemIcon>
                   <ListItemText 
                     primary="Telefone" 
-                    secondary="(11) 1234-5678 / (11) 98765-4321" 
+                    secondary="(13) 3311-7222 / WhatsApp: (13) 99622-7222" 
                   />
                 </ListItem>
                 
@@ -69,7 +70,7 @@ const Contact: React.FC = () => {
                   </ListItemIcon>
                   <ListItemText 
                     primary="Email" 
-                    secondary="contato@esquadrimar.com.br" 
+                    secondary="financeiro1@esquadrimar.com.br" 
                   />
                 </ListItem>
                 
@@ -98,25 +99,11 @@ const Contact: React.FC = () => {
           Nossa Localização
         </Typography>
         <Divider sx={{ mb: 3 }} />
-        <Paper elevation={3} sx={{ height: '400px', overflow: 'hidden' }}>
-          {/* Substitua pelo componente de mapa real */}
-          <Box 
-            sx={{ 
-              width: '100%', 
-              height: '100%', 
-              bgcolor: 'grey.200',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Typography variant="body1" color="text.secondary">
-              Mapa será carregado aqui (Google Maps ou Leaflet)
-            </Typography>
-          </Box>
+        <Paper elevation={3} sx={{ overflow: 'hidden' }}>
+          <LocationMap height={450} />
         </Paper>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          * Para implementação real, utilize a API do Google Maps ou Leaflet para exibir a localização da empresa.
+          Venha nos visitar! Você pode usar o mapa acima para nos encontrar facilmente.
         </Typography>
       </Box>
     </Container>
