@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -16,9 +16,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import BuildIcon from '@mui/icons-material/Build';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import WeekendIcon from '@mui/icons-material/Weekend';
-
-// Imagens para o banner - substitua pelos caminhos reais
-const bannerImage = 'https://source.unsplash.com/random/1400x600/?architecture,furniture';
+import marcenariaImg from '../assets/Marcenaria.jpeg';
+import serralheriaImg from '../assets/Serralheria.jpeg';
+import marmorariaImg from '../assets/Marmoraria.jpeg';
+// Caminho do vídeo no diretório público em vez de importar
+const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-video.mp4`;
 
 // Imagens para os serviços - substitua pelos caminhos reais
 const services = [
@@ -27,23 +29,23 @@ const services = [
     title: 'Marcenaria',
     description: 'Criamos móveis e estruturas de madeira personalizados, com acabamento impecável e design exclusivo.',
     icon: <WeekendIcon fontSize="large" color="primary" />,
-    image: 'https://source.unsplash.com/random/600x400/?woodworking',
+    image: marcenariaImg,
     link: '/servicos/marcenaria'
   },
   {
     id: 2,
     title: 'Serralheria',
-    description: 'Fabricamos produtos em metal como grades, portões, estruturas, escadas e muito mais, com resistência e durabilidade.',
+    description: 'Fabricamos produtos em aluminio como janelas, persianas, portas, grades, portões, muito mais, com resistência e durabilidade.',
     icon: <BuildIcon fontSize="large" color="primary" />,
-    image: 'https://source.unsplash.com/random/600x400/?metalwork',
+    image: serralheriaImg,
     link: '/servicos/serralheria'
   },
   {
     id: 3,
     title: 'Marmoraria',
-    description: 'Trabalhamos com mármores, granitos e outras pedras para criar bancadas, pisos, revestimentos e peças exclusivas.',
+    description: 'Trabalhamos com mármores, granitos, laminas ultra-compactas e outras pedras para criar bancadas, pisos, revestimentos e peças exclusivas.',
     icon: <HandymanIcon fontSize="large" color="primary" />,
-    image: 'https://source.unsplash.com/random/600x400/?marble',
+    image: marmorariaImg,
     link: '/servicos/marmoraria'
   }
 ];
@@ -71,22 +73,77 @@ const featuredProjects = [
 ];
 
 const Home: React.FC = () => {
+  // Referência para o elemento de vídeo
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Efeito para configurar o vídeo quando o componente for montado
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.loop = true;
+      videoRef.current.playsInline = true;
+      videoRef.current.play().catch(error => {
+        console.error("Erro ao reproduzir vídeo automaticamente:", error);
+      });
+    }
+  }, []);
+
   return (
     <Box>
-      {/* Banner Principal */}
+      {/* Banner Principal com Vídeo */}
       <Box
         sx={{
           position: 'relative',
           height: { xs: '50vh', md: '70vh' },
           display: 'flex',
           alignItems: 'center',
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(${bannerImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          overflow: 'hidden',
           mb: 6
         }}
       >
-        <Container maxWidth="lg">
+        {/* Vídeo de fundo */}
+        <Box
+          component="video"
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0
+          }}
+        >
+          <source src={bannerVideoPath} type="video/mp4" />
+          Seu navegador não suporta vídeos HTML5.
+        </Box>
+        
+        {/* Overlay escuro para melhorar a legibilidade do texto */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1
+          }}
+        />
+        
+        {/* Conteúdo do banner */}
+        <Container 
+          maxWidth="lg"
+          sx={{
+            position: 'relative',
+            zIndex: 2
+          }}
+        >
           <Box sx={{ color: 'white', textAlign: 'center' }}>
             <Typography variant="h2" component="h1" gutterBottom>
               Esquadrimar
@@ -137,9 +194,10 @@ const Home: React.FC = () => {
           </Typography>
           <Divider sx={{ width: '80px', margin: '0 auto', mb: 3, borderWidth: 2 }} />
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: '800px', mx: 'auto' }}>
-            Há mais de 15 anos no mercado, a Esquadrimar é especializada em soluções completas em marcenaria, 
-            serralheria e marmoraria. Atendemos projetos residenciais e comerciais com qualidade, pontualidade e 
-            compromisso, transformando ideias em realidade.
+             Prestando um serviço de altissimo padrão, a Esquadrimar entrega a seus clientes peças unicas, 
+            feitas com os melhores produtos relacionados a marmoraria, serralheria e marcenaria. Um trabalho 
+            de excelencia que vem se ampliando desde a sua criação em 2006, e hoje já é reconhecida como uma 
+            das maiores empresas do ramo na Baixada Santista.
           </Typography>
           <Button 
             component={RouterLink} 
