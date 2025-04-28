@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { 
   Box, 
   Container, 
@@ -10,7 +10,9 @@ import {
   CardMedia,
   CardActions,
   Divider,
-  Paper
+  Paper,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import BuildIcon from '@mui/icons-material/Build';
@@ -18,7 +20,7 @@ import HandymanIcon from '@mui/icons-material/Handyman';
 import WeekendIcon from '@mui/icons-material/Weekend';
 
 // Caminho do vídeo no diretório público em vez de importar
-const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-video.mp4`;
+const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-new-video.mp4`;
 
 // URLs para imagens temporárias de serviços (em vez de importar arquivos locais inexistentes)
 const marcenariaImgUrl = `${process.env.PUBLIC_URL}/assets/marcenaria-temp.jpg`;
@@ -78,6 +80,9 @@ const featuredProjects = [
 const Home: React.FC = () => {
   // Referência para o elemento de vídeo
   const videoRef = useRef<HTMLVideoElement>(null);
+  const theme = useTheme();
+  // Detectar se é tela móvel ou desktop
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Efeito para configurar o vídeo quando o componente for montado
   useEffect(() => {
@@ -93,39 +98,52 @@ const Home: React.FC = () => {
 
   return (
     <Box>
-      {/* Banner Principal com Vídeo (sem textos e botões) */}
+      {/* Banner Principal com Vídeo */}
       <Box
         sx={{
           position: 'relative',
           height: { xs: '60vh', md: '80vh' },
           width: '100%',
           overflow: 'hidden',
-          mb: 6
+          mb: 6,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
-        {/* Vídeo de fundo com ajuste para exibição completa */}
+        {/* Container do Vídeo com proporção fixa */}
         <Box
-          component="video"
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            minWidth: '100%',
-            minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-            transform: 'translate(-50%, -50%)',
-            objectFit: 'cover',
-            zIndex: 0
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden'
           }}
         >
-          <source src={bannerVideoPath} type="video/mp4" />
-          Seu navegador não suporta vídeos HTML5.
+          {/* Vídeo de fundo com ajuste para exibição mantendo proporção */}
+          <Box
+            component="video"
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              backgroundColor: 'black', // Fundo preto para as barras laterais
+              zIndex: 0
+            }}
+          >
+            <source src={bannerVideoPath} type="video/mp4" />
+            Seu navegador não suporta vídeos HTML5.
+          </Box>
         </Box>
         
         {/* Overlay escuro leve (opcional, mais sutil) */}

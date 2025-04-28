@@ -128,11 +128,11 @@ const Footer: React.FC = () => {
               Contato
             </Typography>
             <Typography variant="body2" paragraph>
-              Avenida Central, Nº 11
+              Avenida Anchieta, Nº 11
               <br />
               Chacaras
               <br />
-              Bertioga - SP
+              Bertioga - SP, CEP: 11259-219
             </Typography>
             <Typography variant="body2">
               Tel: (13) 3311-7222
@@ -152,4 +152,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer; 
+export default Footer;  

@@ -1,13 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-// Endereço completo para pesquisa mais precisa
-const address = "Av. Central, 11 - Vista Linda, Bertioga - SP, 11259-219, Brasil";
-const encodedAddress = encodeURIComponent(address);
-
-// URL para o iframe do Google Maps
-const googleMapsEmbedUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodedAddress}`;
-
 interface LocationMapProps {
   height?: string | number;
 }
@@ -15,15 +8,16 @@ interface LocationMapProps {
 const LocationMap: React.FC<LocationMapProps> = ({ height = '450px' }) => {
   return (
     <Box sx={{ height, width: '100%', borderRadius: 1, overflow: 'hidden' }}>
-      <iframe
-        title="Localização da Esquadrimar"
-        width="100%"
-        height="100%"
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3646.000273402762!2d-46.139866!3d-23.792809!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce03aa43aa7bad%3A0x96f4a3b18f9cad7f!2sEsquadrimar!5e0!3m2!1spt-BR!2sbr!4v1715380546319!5m2!1spt-BR!2sbr"
+        width="100%" 
+        height="100%" 
         style={{ border: 0, borderRadius: '8px' }}
-        loading="lazy"
-        allowFullScreen
-        src={googleMapsEmbedUrl}
-      ></iframe>
+        allowFullScreen={true} 
+        loading="lazy" 
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Localização da Esquadrimar"
+      />
     </Box>
   );
 };

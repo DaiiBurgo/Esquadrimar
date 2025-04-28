@@ -12,10 +12,19 @@ import {
   List,
   ListItem,
   ListItemText,
-  Theme
+  Theme,
+  Tooltip
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+// import VerdeEsquadrimarLogo from '../../assets/Verde_Esquadrimar.png';
+
+// URL do WhatsApp
+const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5513996227222&text=Olá!%20Vim%20pelo%20site%20da%20Esquadrimar.';
+
+// Caminho da logo
+const LOGO_PATH = `${process.env.PUBLIC_URL}/assets/Verde_Esquadrimar.png`;
 
 const navigationLinks = [
   { name: 'Home', path: '/' },
@@ -35,9 +44,17 @@ const Header: React.FC = () => {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Esquadrimar
-      </Typography>
+      <Box sx={{ my: 2, px: 2 }}>
+        <Box
+          component="img"
+          src={LOGO_PATH}
+          alt="Logo Esquadrimar"
+          sx={{
+            maxWidth: '180px',
+            height: 'auto'
+          }}
+        />
+      </Box>
       <List>
         {navigationLinks.map((item) => (
           <ListItem 
@@ -56,36 +73,49 @@ const Header: React.FC = () => {
           </ListItem>
         ))}
         <ListItem 
-          component={RouterLink}
-          to="/login"
+          component="a"
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           sx={{ 
             textDecoration: 'none', 
-            color: 'primary.main',
+            color: '#25D366',
             '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)'
+              backgroundColor: 'rgba(37, 211, 102, 0.1)'
             }
           }}
         >
-          <ListItemText primary="Login" />
+          <WhatsAppIcon sx={{ mr: 1 }} />
+          <ListItemText primary="Fale conosco" />
         </ListItem>
       </List>
     </Box>
   );
 
   return (
-    <AppBar position="static" color="default" elevation={1}>
+    <AppBar position="static" color="default" elevation={1} sx={{ py: 1 }}>
       <Container maxWidth="lg">
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box
-          component="img"
-          src={`${process.env.PUBLIC_URL}/assets/logo1.svg`}
-          alt="Logo Esquadrimar"
+          component={RouterLink}
+          to="/"
           sx={{
-            width: 100,
-            height: 60,
-            objectFit: 'contain'
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center'
           }}
-        />
+        >
+          <Box
+            component="img"
+            src={LOGO_PATH}
+            alt="Logo Esquadrimar"
+            sx={{
+              width: { xs: 120, sm: 150, md: 180 },
+              height: 'auto',
+              objectFit: 'contain'
+            }}
+          />
+        </Box>
           {isMobile ? (
             <>
               <IconButton
@@ -125,15 +155,25 @@ const Header: React.FC = () => {
                   {item.name}
                 </Button>
               ))}
-              <Button
-                component={RouterLink}
-                to="/login"
-                variant="outlined"
-                color="primary"
-                sx={{ ml: 2 }}
-              >
-                Login
-              </Button>
+              <Tooltip title="Fale conosco pelo WhatsApp">
+                <Button
+                  component="a"
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="contained"
+                  startIcon={<WhatsAppIcon />}
+                  sx={{ 
+                    ml: 2,
+                    bgcolor: '#25D366',
+                    '&:hover': {
+                      bgcolor: '#128C7E'
+                    }
+                  }}
+                >
+                  Fale Conosco
+                </Button>
+              </Tooltip>
             </Box>
           )}
         </Toolbar>

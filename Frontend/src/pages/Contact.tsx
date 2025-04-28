@@ -50,7 +50,7 @@ const Contact: React.FC = () => {
                   </ListItemIcon>
                   <ListItemText 
                     primary="Endereço" 
-                    secondary="Avenida Central, Nº 11, Chacaras - Bertioga, São Paulo - SP" 
+                    secondary="Av. Central, 11 - Chacaras, Bertioga - SP, 11259-219" 
                   />
                 </ListItem>
                 
@@ -80,7 +80,7 @@ const Contact: React.FC = () => {
                   </ListItemIcon>
                   <ListItemText 
                     primary="Horário de Funcionamento" 
-                    secondary="Segunda a Sexta: 8h às 18h | Sábado: 8h às 12h" 
+                    secondary="Segunda a Sexta: 8h às 17h30 | Sábado: 8h às 13h" 
                   />
                 </ListItem>
               </List>
@@ -93,18 +93,27 @@ const Contact: React.FC = () => {
         </Grid>
       </Grid>
       
-      {/* Mapa */}
+      {/* Seção do Mapa */}
       <Box sx={{ mt: 6 }}>
         <Typography variant="h5" component="h2" gutterBottom>
           Nossa Localização
         </Typography>
         <Divider sx={{ mb: 3 }} />
-        <Paper elevation={3} sx={{ overflow: 'hidden' }}>
+        <Paper elevation={3} sx={{ overflow: 'hidden', p: 0 }}>
+          <Box sx={{ p: 3, pb: 0 }}>
+            <Typography variant="body1" paragraph>
+              Estamos localizados na Avenida Anchieta, Nº 11, no bairro Chácaras em Bertioga/SP.
+              Visite nosso showroom para conhecer nossos produtos de alta qualidade.
+            </Typography>
+          </Box>
           <LocationMap height={450} />
+          <Box sx={{ p: 3, pt: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Dica:</strong> Clique no marcador para ver nosso endereço completo.
+              Você pode usar os controles de zoom ou arrastar o mapa para explorar a região.
+            </Typography>
+          </Box>
         </Paper>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          Venha nos visitar! Você pode usar o mapa acima para nos encontrar facilmente.
-        </Typography>
       </Box>
     </Container>
   );

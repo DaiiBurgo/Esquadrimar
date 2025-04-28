@@ -108,8 +108,17 @@ Este projeto foi desenvolvido como parte de um projeto integrador de faculdade p
 
 - [Daii Burgo]
 
+
 ## Membros do grupo
-- [adcionar membros]
+
+- [Daiana S. Lespier]
+- [Filipe S. Gomes]
+- [Helder L. P. Costa]
+- [João Vitor V. de Oliveira]
+- [Regina Mancini]
+- [Welinton Arantes]
+- [Yolanda Maria Fanucchi]
+
 
 ## Licença
 
