@@ -17,7 +17,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import StarIcon from '@mui/icons-material/Star';
 
 // Caminho do vídeo no diretório público
-const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-new-video.mp4`;
+const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-video.mp4`;
 
 const About: React.FC = () => {
   // Referência para o elemento de vídeo
@@ -25,6 +25,9 @@ const About: React.FC = () => {
 
   // Efeito para configurar o vídeo quando o componente for montado
   useEffect(() => {
+    console.log('About component mounted');
+    document.title = 'Esquadrimar - Sobre';
+    
     if (videoRef.current) {
       videoRef.current.muted = true;
       videoRef.current.loop = true;
@@ -100,8 +103,8 @@ const About: React.FC = () => {
                 playsInline
                 sx={{
                   width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
+                  height: 'auto',
+                  objectFit: 'contain',
                 }}
               >
                 <source src={bannerVideoPath} type="video/mp4" />
@@ -191,7 +194,7 @@ const About: React.FC = () => {
         </Grid>
       </Box>
 
-      {/* Nossa Equipe */}
+      {/* Nossa Equipe - Seção Simplificada */}
       <Box sx={{ mb: 6 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
           <GroupsIcon color="primary" sx={{ mr: 2, fontSize: 32 }} />
@@ -205,16 +208,6 @@ const About: React.FC = () => {
           Nossa equipe é formada por profissionais altamente qualificados e experientes, apaixonados pelo que fazem. 
           Acreditamos que o talento e a dedicação de cada colaborador são essenciais para a entrega de produtos 
           e serviços de excelência.
-        </Typography>
-        
-        <Typography variant="body1" paragraph>
-          Investimos constantemente na capacitação e no bem-estar de nossos funcionários, criando um ambiente 
-          de trabalho colaborativo e estimulante, onde a criatividade e a inovação são valorizadas.
-        </Typography>
-        
-        <Typography variant="body1">
-          Desde a concepção até a entrega final, nossa equipe trabalha em sinergia para garantir que cada 
-          projeto seja executado com precisão, dentro do prazo e superando as expectativas dos clientes.
         </Typography>
       </Box>
 

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -9,20 +9,20 @@ import {
   CardContent,
   CardMedia,
   CardActions,
-  Divider,
-  Paper,
-  useMediaQuery,
-  useTheme
+  Divider
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import BuildIcon from '@mui/icons-material/Build';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import WeekendIcon from '@mui/icons-material/Weekend';
 
-// Caminho do vídeo no diretório público em vez de importar
+// Caminho do vídeo no diretório público
 const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-new-video.mp4`;
 
-// URLs para imagens temporárias de serviços (em vez de importar arquivos locais inexistentes)
+// Caminho da logo da empresa
+const logoPath = `${process.env.PUBLIC_URL}/assets/Verde_Esquadrimar.png`;
+
+// URLs para imagens temporárias de serviços
 const marcenariaImgUrl = `${process.env.PUBLIC_URL}/assets/marcenaria-temp.jpg`;
 const serralheriaImgUrl = `${process.env.PUBLIC_URL}/assets/serralheria-temp.jpg`;
 const marmorariaImgUrl = `${process.env.PUBLIC_URL}/assets/marmoraria-temp.jpg`;
@@ -55,37 +55,15 @@ const services = [
   }
 ];
 
-// Imagens para destaques do portfólio - substitua pelos caminhos reais
-const featuredProjects = [
-  {
-    id: 1,
-    title: 'Residência Villa Nova',
-    description: 'Projeto completo de marcenaria e marmoraria para residência de alto padrão.',
-    image: 'https://source.unsplash.com/random/600x400/?luxury,apartment'
-  },
-  {
-    id: 2,
-    title: 'Escritório Corporativo',
-    description: 'Móveis e estruturas metálicas para escritório corporativo no centro empresarial.',
-    image: 'https://source.unsplash.com/random/600x400/?office,modern'
-  },
-  {
-    id: 3,
-    title: 'Restaurante Giardino',
-    description: 'Projeto completo com marcenaria, serralheria e marmoraria para restaurante.',
-    image: 'https://source.unsplash.com/random/600x400/?restaurant'
-  }
-];
-
 const Home: React.FC = () => {
   // Referência para o elemento de vídeo
   const videoRef = useRef<HTMLVideoElement>(null);
-  const theme = useTheme();
-  // Detectar se é tela móvel ou desktop
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Efeito para configurar o vídeo quando o componente for montado
   useEffect(() => {
+    console.log('Home component mounted');
+    document.title = 'Esquadrimar - Home';
+    
     if (videoRef.current) {
       videoRef.current.muted = true;
       videoRef.current.loop = true;
@@ -98,7 +76,7 @@ const Home: React.FC = () => {
 
   return (
     <Box>
-      {/* Banner Principal com Vídeo */}
+      {/* Banner Principal com Vídeo e Logo */}
       <Box
         sx={{
           position: 'relative',
@@ -111,7 +89,7 @@ const Home: React.FC = () => {
           alignItems: 'center'
         }}
       >
-        {/* Container do Vídeo com proporção fixa */}
+        {/* Container do Vídeo */}
         <Box
           sx={{
             position: 'relative',
@@ -123,7 +101,7 @@ const Home: React.FC = () => {
             overflow: 'hidden'
           }}
         >
-          {/* Vídeo de fundo com ajuste para exibição mantendo proporção */}
+          {/* Vídeo de fundo */}
           <Box
             component="video"
             ref={videoRef}
@@ -137,7 +115,7 @@ const Home: React.FC = () => {
               height: '100%',
               objectFit: 'cover',
               objectPosition: 'center',
-              backgroundColor: 'black', // Fundo preto para as barras laterais
+              backgroundColor: 'black',
               zIndex: 0
             }}
           >
@@ -146,7 +124,7 @@ const Home: React.FC = () => {
           </Box>
         </Box>
         
-        {/* Overlay escuro leve (opcional, mais sutil) */}
+        {/* Overlay escuro para aumentar visibilidade da logo */}
         <Box
           sx={{
             position: 'absolute',
@@ -154,10 +132,50 @@ const Home: React.FC = () => {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
             zIndex: 1
           }}
         />
+
+        {/* Logo sobreposta ao vídeo */}
+        <Box
+          sx={{
+            position: 'absolute',
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center'
+          }}
+        >
+          <Box
+            component="img"
+            src={logoPath}
+            alt="Logo Esquadrimar"
+            sx={{
+              maxWidth: { xs: '80%', sm: '60%', md: '50%' },
+              height: 'auto',
+              opacity: 0.9,
+              filter: 'drop-shadow(0px 4px 8px rgba(0,0,0,0.5))',
+              mb: 4
+            }}
+          />
+          <Button 
+            variant="contained" 
+            color="secondary"
+            size="large"
+            component={RouterLink}
+            to="/contato"
+            sx={{ 
+              py: 1.5,
+              px: 4,
+              fontSize: { xs: '0.9rem', md: '1.1rem' }
+            }}
+          >
+            Solicitar orçamento
+          </Button>
+        </Box>
       </Box>
 
       {/* Sobre Nós - Resumo */}
@@ -195,25 +213,21 @@ const Home: React.FC = () => {
           <Grid container spacing={4}>
             {services.map((service) => (
               <Grid item xs={12} md={4} key={service.id}>
-                <Card 
-                  sx={{ 
-                    height: '100%', 
-                    display: 'flex', 
-                    flexDirection: 'column',
-                    transition: 'transform 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: 6
-                    }
-                  }}
-                >
+                <Card sx={{ 
+                  height: '100%',
+                  transition: 'transform 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: 6
+                  }
+                }}>
                   <CardMedia
                     component="img"
                     height="200"
                     image={service.image}
                     alt={service.title}
                   />
-                  <CardContent sx={{ flexGrow: 1 }}>
+                  <CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                       {service.icon}
                       <Typography variant="h5" component="h3" sx={{ ml: 1 }}>
@@ -253,76 +267,14 @@ const Home: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Destaques do Portfólio */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h4" component="h2" align="center" gutterBottom>
-          Projetos Recentes
-        </Typography>
-        <Divider sx={{ width: '80px', margin: '0 auto', mb: 5, borderWidth: 2 }} />
-        
-        <Grid container spacing={4}>
-          {featuredProjects.map((project) => (
-            <Grid item xs={12} sm={6} md={4} key={project.id}>
-              <Paper 
-                elevation={2}
-                sx={{ 
-                  height: '100%',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    transform: 'scale(1.03)',
-                    boxShadow: 6
-                  }
-                }}
-              >
-                <Box
-                  sx={{
-                    height: 250,
-                    backgroundImage: `url(${project.image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    position: 'relative'
-                  }}
-                >
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                      color: 'white',
-                      p: 2
-                    }}
-                  >
-                    <Typography variant="h6">{project.title}</Typography>
-                    <Typography variant="body2">{project.description}</Typography>
-                  </Box>
-                </Box>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
-        
-        <Box sx={{ textAlign: 'center', mt: 4 }}>
-          <Button 
-            variant="contained" 
-            color="primary"
-            component={RouterLink}
-            to="/portfolio"
-            size="large"
-          >
-            Ver portfólio completo
-          </Button>
-        </Box>
-      </Container>
-
       {/* Call to Action */}
       <Box
         sx={{
           bgcolor: 'primary.main',
           color: 'white',
           py: 6,
-          textAlign: 'center'
+          textAlign: 'center',
+          mt: 8
         }}
       >
         <Container maxWidth="md">
