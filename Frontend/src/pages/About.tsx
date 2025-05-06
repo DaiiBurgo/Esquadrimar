@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { 
   Container, 
   Typography, 
@@ -9,12 +9,19 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  IconButton,
+  Tooltip,
+  Fade
 } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HistoryIcon from '@mui/icons-material/History';
 import StarIcon from '@mui/icons-material/Star';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
 
 // Caminho do vídeo no diretório público
 const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-video.mp4`;
@@ -22,6 +29,33 @@ const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-video.mp4`
 const About: React.FC = () => {
   // Referência para o elemento de vídeo
   const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Estados para controlar o vídeo
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
+
+  // Funções para controlar a reprodução do vídeo
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(error => {
+          console.error("Erro ao reproduzir vídeo:", error);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Função para ativar/desativar o áudio
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(!isMuted);
+    }
+  };
 
   // Efeito para configurar o vídeo quando o componente for montado
   useEffect(() => {
@@ -29,13 +63,32 @@ const About: React.FC = () => {
     document.title = 'Esquadrimar - Sobre';
     
     if (videoRef.current) {
+      // Inicialmente mudo para evitar reprodução automática com áudio
+      // (navegadores modernos bloqueiam reprodução automática com áudio)
       videoRef.current.muted = true;
       videoRef.current.loop = true;
       videoRef.current.playsInline = true;
-      videoRef.current.play().catch(error => {
+      
+      // Inicia a reprodução do vídeo
+      videoRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(error => {
         console.error("Erro ao reproduzir vídeo automaticamente:", error);
+        setIsPlaying(false);
       });
+      
+      // Adiciona listener para atualizar o estado de reprodução
+      videoRef.current.addEventListener('play', () => setIsPlaying(true));
+      videoRef.current.addEventListener('pause', () => setIsPlaying(false));
     }
+    
+    // Cleanup function
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.removeEventListener('play', () => setIsPlaying(true));
+        videoRef.current.removeEventListener('pause', () => setIsPlaying(false));
+      }
+    };
   }, []);
 
   return (
@@ -81,7 +134,17 @@ const About: React.FC = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           {/* Vídeo Institucional */}
-          <Paper elevation={3} sx={{ overflow: 'hidden', height: '100%', minHeight: '300px' }}>
+          <Paper 
+            elevation={3} 
+            sx={{ 
+              overflow: 'hidden', 
+              height: '100%', 
+              minHeight: '300px',
+              position: 'relative'
+            }}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
             <Box
               sx={{
                 position: 'relative',
@@ -99,17 +162,83 @@ const About: React.FC = () => {
                 ref={videoRef}
                 autoPlay
                 loop
-                muted
+                controls={false}
                 playsInline
+                onClick={togglePlay}
                 sx={{
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
+                  cursor: 'pointer'
                 }}
               >
                 <source src={bannerVideoPath} type="video/mp4" />
                 Seu navegador não suporta vídeos HTML5.
               </Box>
+
+              {/* Controles customizados do vídeo */}
+              <Fade in={isHovering || !isPlaying}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: 1,
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    zIndex: 1
+                  }}
+                >
+                  <Tooltip title={isPlaying ? "Pausar" : "Reproduzir"}>
+                    <IconButton
+                      onClick={togglePlay}
+                      color="inherit"
+                      sx={{ color: 'white' }}
+                    >
+                      {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                    </IconButton>
+                  </Tooltip>
+                  
+                  <Typography variant="caption" sx={{ color: 'white' }}>
+                    Vídeo Institucional Esquadrimar
+                  </Typography>
+
+                  <Tooltip title={isMuted ? "Ativar áudio" : "Desativar áudio"}>
+                    <IconButton
+                      onClick={toggleMute}
+                      color="inherit"
+                      sx={{ color: 'white' }}
+                    >
+                      {isMuted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Fade>
+
+              {/* Ícone de play centralizado quando o vídeo está pausado */}
+              {!isPlaying && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    borderRadius: '50%',
+                    p: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                  onClick={togglePlay}
+                >
+                  <PlayArrowIcon sx={{ fontSize: 60, color: 'white' }} />
+                </Box>
+              )}
             </Box>
           </Paper>
         </Grid>

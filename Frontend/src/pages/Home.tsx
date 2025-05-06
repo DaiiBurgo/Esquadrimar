@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { 
   Box, 
   Container, 
@@ -9,23 +9,33 @@ import {
   CardContent,
   CardMedia,
   CardActions,
-  Divider
+  Divider,
+  Modal,
+  Paper,
+  IconButton,
+  Stack
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import BuildIcon from '@mui/icons-material/Build';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import WeekendIcon from '@mui/icons-material/Weekend';
+import CloseIcon from '@mui/icons-material/Close';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import EmailIcon from '@mui/icons-material/Email';
 
 // Caminho do vídeo no diretório público
 const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-new-video.mp4`;
 
 // Caminho da logo da empresa
-const logoPath = `${process.env.PUBLIC_URL}/assets/Verde_Esquadrimar.png`;
+const logoPath = `${process.env.PUBLIC_URL}/assets/Creme_Esquadrimar.png`;
 
 // URLs para imagens temporárias de serviços
 const marcenariaImgUrl = `${process.env.PUBLIC_URL}/assets/marcenaria-temp.jpg`;
 const serralheriaImgUrl = `${process.env.PUBLIC_URL}/assets/serralheria-temp.jpg`;
 const marmorariaImgUrl = `${process.env.PUBLIC_URL}/assets/marmoraria-temp.jpg`;
+
+// URL do WhatsApp
+const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5513996227222&text=Olá!%20Vim%20pelo%20site%20da%20Esquadrimar%20e%20gostaria%20de%20solicitar%20um%20orçamento.';
 
 // Imagens para os serviços - substitua pelos caminhos reais
 const services = [
@@ -58,6 +68,13 @@ const services = [
 const Home: React.FC = () => {
   // Referência para o elemento de vídeo
   const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Estado para controlar a abertura do modal
+  const [openContactModal, setOpenContactModal] = useState(false);
+
+  // Funções para abrir e fechar o modal
+  const handleOpenContactModal = () => setOpenContactModal(true);
+  const handleCloseContactModal = () => setOpenContactModal(false);
 
   // Efeito para configurar o vídeo quando o componente for montado
   useEffect(() => {
@@ -138,6 +155,7 @@ const Home: React.FC = () => {
         />
 
         {/* Logo sobreposta ao vídeo */}
+        {/* Comentado temporariamente para ver como fica o banner sem a logo
         <Box
           sx={{
             position: 'absolute',
@@ -156,26 +174,17 @@ const Home: React.FC = () => {
             sx={{
               maxWidth: { xs: '80%', sm: '60%', md: '50%' },
               height: 'auto',
-              opacity: 0.9,
-              filter: 'drop-shadow(0px 4px 8px rgba(0,0,0,0.5))',
-              mb: 4
+              opacity: 0.95,
+              filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.7))',
+              transform: 'translateZ(20px)',
+              transition: 'transform 0.3s ease-in-out',
+              '&:hover': {
+                transform: 'translateZ(30px) scale(1.02)',
+              }
             }}
           />
-          <Button 
-            variant="contained" 
-            color="secondary"
-            size="large"
-            component={RouterLink}
-            to="/contato"
-            sx={{ 
-              py: 1.5,
-              px: 4,
-              fontSize: { xs: '0.9rem', md: '1.1rem' }
-            }}
-          >
-            Solicitar orçamento
-          </Button>
         </Box>
+        */}
       </Box>
 
       {/* Sobre Nós - Resumo */}
@@ -288,17 +297,91 @@ const Home: React.FC = () => {
             variant="contained" 
             color="secondary"
             size="large"
-            component={RouterLink}
-            to="/contato"
+            onClick={handleOpenContactModal}
             sx={{ 
               py: 1.5,
               px: 4
             }}
           >
-            Solicitar orçamento
+            Solicitar Orçamento
           </Button>
         </Container>
       </Box>
+
+      {/* Modal de Contato */}
+      <Modal
+        open={openContactModal}
+        onClose={handleCloseContactModal}
+        aria-labelledby="modal-contact"
+        aria-describedby="modal-contact-options"
+      >
+        <Paper 
+          sx={{ 
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: { xs: '90%', sm: 400 },
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+            outline: 'none'
+          }}
+        >
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h5" component="h2" id="modal-contact">
+              Como prefere entrar em contato?
+            </Typography>
+            <IconButton onClick={handleCloseContactModal} aria-label="fechar">
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          
+          <Divider sx={{ mb: 3 }} />
+
+          <Stack spacing={2}>
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              startIcon={<WhatsAppIcon />}
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              fullWidth
+              sx={{ py: 1.5 }}
+            >
+              Conversar pelo WhatsApp
+            </Button>
+            
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<EmailIcon />}
+              component={RouterLink}
+              to={{
+                pathname: "/contato",
+                hash: "#formulario-contato"
+              }}
+              onClick={() => {
+                handleCloseContactModal();
+                setTimeout(() => {
+                  const element = document.getElementById('formulario-contato');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }, 100);
+              }}
+              fullWidth
+              sx={{ py: 1.5 }}
+            >
+              Enviar mensagem de e-mail
+            </Button>
+          </Stack>
+        </Paper>
+      </Modal>
     </Box>
   );
 };

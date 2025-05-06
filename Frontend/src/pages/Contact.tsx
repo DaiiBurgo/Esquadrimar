@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   Container, 
   Grid, 
@@ -13,6 +13,7 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
@@ -21,8 +22,25 @@ import ContactForm from '../components/contact/ContactForm';
 import LocationMap from '../components/map/LocationMap';
 
 const Contact: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll para o elemento apropriado baseado no hash
+    if (location.hash === '#topo') {
+      window.scrollTo(0, 0);
+    } else if (location.hash === '#formulario-contato') {
+      // Pequeno atraso para garantir que o DOM está completamente carregado
+      setTimeout(() => {
+        const element = document.getElementById('formulario-contato');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} id="topo">
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <Typography variant="h3" component="h1" gutterBottom>
           Entre em Contato
@@ -88,7 +106,7 @@ const Contact: React.FC = () => {
           </Card>
         </Grid>
         
-        <Grid item xs={12} md={7}>
+        <Grid item xs={12} md={7} id="formulario-contato">
           <ContactForm />
         </Grid>
       </Grid>
@@ -102,7 +120,7 @@ const Contact: React.FC = () => {
         <Paper elevation={3} sx={{ overflow: 'hidden', p: 0 }}>
           <Box sx={{ p: 3, pb: 0 }}>
             <Typography variant="body1" paragraph>
-              Estamos localizados na Avenida Anchieta, Nº 11, no bairro Chácaras em Bertioga/SP.
+              Estamos localizados na Av. Vista Linda, bairro Vista Linda em Bertioga/SP.
               Visite nosso showroom para conhecer nossos produtos de alta qualidade.
             </Typography>
           </Box>

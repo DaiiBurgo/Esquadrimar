@@ -65,7 +65,7 @@ const ContactForm: React.FC = () => {
   return (
     <Paper elevation={3} sx={{ p: 4, maxWidth: 800, mx: 'auto' }}>
       <Typography variant="h5" component="h2" gutterBottom>
-        Entre em Contato
+        Nos deixe uma mensagem
       </Typography>
       <Typography variant="body1" color="text.secondary" paragraph>
         Preencha o formulário abaixo para enviar uma mensagem. Responderemos o mais breve possível.

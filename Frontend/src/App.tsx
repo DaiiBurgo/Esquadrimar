@@ -1,35 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { ThemeProvider, createTheme, CssBaseline, Box, Typography } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Services from './pages/Services';
 import Portfolio from './pages/Portfolio';
-
-// Componente de debug para mostrar a rota atual
-const RouteDebug = () => {
-  const location = useLocation();
-  console.log('Current route:', location.pathname);
-  return (
-    <Box 
-      sx={{ 
-        position: 'fixed', 
-        top: 0, 
-        right: 0, 
-        bgcolor: 'rgba(0,0,0,0.7)', 
-        color: 'white', 
-        p: 1, 
-        zIndex: 9999 
-      }}
-    >
-      <Typography variant="body2">
-        Current Route: {location.pathname}
-      </Typography>
-    </Box>
-  );
-};
 
 // Tema personalizado
 const theme = createTheme({
@@ -100,7 +77,6 @@ const App: React.FC = () => {
       <CssBaseline />
       <Router>
         <Layout>
-          <RouteDebug />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Navigate to="/" replace />} />
