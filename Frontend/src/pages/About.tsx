@@ -22,11 +22,13 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import { useLocation } from 'react-router-dom';
 
 // Caminho do vídeo no diretório público
-const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-video.mp4`;
+const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-institucional.mp4`;
 
 const About: React.FC = () => {
+  const location = useLocation();
   // Referência para o elemento de vídeo
   const videoRef = useRef<HTMLVideoElement>(null);
   
@@ -57,42 +59,36 @@ const About: React.FC = () => {
     }
   };
 
-  // Efeito para configurar o vídeo quando o componente for montado
+  // Efeito para configurar o vídeo e scroll quando o componente for montado
   useEffect(() => {
     console.log('About component mounted');
     document.title = 'Esquadrimar - Sobre';
     
-    if (videoRef.current) {
-      // Inicialmente mudo para evitar reprodução automática com áudio
-      // (navegadores modernos bloqueiam reprodução automática com áudio)
-      videoRef.current.muted = true;
-      videoRef.current.loop = true;
-      videoRef.current.playsInline = true;
-      
-      // Inicia a reprodução do vídeo
-      videoRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(error => {
-        console.error("Erro ao reproduzir vídeo automaticamente:", error);
-        setIsPlaying(false);
-      });
-      
-      // Adiciona listener para atualizar o estado de reprodução
-      videoRef.current.addEventListener('play', () => setIsPlaying(true));
-      videoRef.current.addEventListener('pause', () => setIsPlaying(false));
+    // Scroll para o topo quando o componente for montado ou quando houver mudança no hash
+    if (location.hash === '#topo') {
+      window.scrollTo(0, 0);
     }
     
-    // Cleanup function
+    const video = videoRef.current;
+    if (video) {
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.play().catch(error => {
+        console.error("Erro ao reproduzir vídeo automaticamente:", error);
+      });
+    }
+
     return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener('play', () => setIsPlaying(true));
-        videoRef.current.removeEventListener('pause', () => setIsPlaying(false));
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
       }
     };
-  }, []);
+  }, [location]);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} id="topo">
       {/* Título da Página */}
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <Typography variant="h3" component="h1" gutterBottom>

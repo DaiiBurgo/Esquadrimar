@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Container, 
   Typography, 
@@ -21,6 +21,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ContactModal from '../components/contact/ContactModal';
 
 // Interface para o tipo de projeto
 interface Project {
@@ -39,101 +40,130 @@ const projects: Project[] = [
   // Marcenaria
   {
     id: 1,
-    title: 'Móveis Planejados - Residência São Paulo',
-    description: 'Projeto completo de móveis planejados para apartamento de alto padrão, incluindo cozinha, quartos e sala de estar.',
+    title: 'Móveis Planejados - Residência Bertioga',
+    description: 'Projeto completo de móveis planejados para apartamento de alto padrão, incluindo cozinha, área gourmet, quartos, sala de estar e lavanderia.',
     category: 'marcenaria',
-    image: 'https://source.unsplash.com/random/1200x800/?kitchen,furniture',
+    image: '/assets/temp-marcenaria-1.jpg',
     additionalImages: [
-      'https://source.unsplash.com/random/1200x800/?bedroom,furniture',
-      'https://source.unsplash.com/random/1200x800/?livingroom,furniture',
-      'https://source.unsplash.com/random/1200x800/?closet,wood'
+      '/assets/temp-marcenaria-1a.jpg',
+      '/assets/temp-marcenaria-1b.jpg',
+      '/assets/temp-marcenaria-1c.jpg',
+      '/assets/temp-marcenaria-1d.jpg',
+      '/assets/temp-marcenaria-1e.jpg'
     ],
-    location: 'São Paulo - SP',
-    year: '2023'
+    location: 'Bertioga - SP',
+    year: '2025'
   },
   {
     id: 2,
-    title: 'Home Office Personalizado',
-    description: 'Projeto de escritório em casa com móveis planejados para otimizar o espaço e proporcionar conforto durante o trabalho.',
+    title: 'Sala de Cinema e Sala de TV',
+    description: 'Projeto de Cinema em casa e sala de TV com móveis planejados para otimizar o espaço e proporcionar conforto durante o descanso e entretenimento.',
     category: 'marcenaria',
-    image: 'https://source.unsplash.com/random/1200x800/?office,desk',
-    location: 'Santos - SP',
-    year: '2022'
+    image: '/assets/temp-marcenaria-2.jpg',
+    additionalImages: [
+      '/assets/temp-marcenaria-2a.jpg',
+    ],
+    location: 'Bertioga - SP',
+    year: '2024'
   },
   {
     id: 3,
     title: 'Closet Planejado',
     description: 'Closet planejado com soluções inteligentes de organização, gavetas, prateleiras e cabideiros em madeira nobre.',
     category: 'marcenaria',
-    image: 'https://source.unsplash.com/random/1200x800/?closet,wardrobe',
+    image: '/assets/temp-marcenaria-3.jpg',
+    additionalImages: [
+      '/assets/temp-marcenaria-3a.jpg',
+      '/assets/temp-marcenaria-3b.jpg',
+    ],
     location: 'Guarujá - SP',
-    year: '2023'
+    year: '2024'
   },
 
   // Serralheria
   {
     id: 4,
-    title: 'Esquadrias de Alumínio - Condomínio Riviera',
-    description: 'Projeto e instalação de janelas e portas de alumínio com vidro temperado em condomínio de luxo.',
+    title: 'Fachada e Esquadrias - Condomínio Riviera',
+    description: 'Projeto e instalação fachada com brise fixo, esquadrias de janelas e portas de alumínio com vidro temperado em todos os cômodos do condomínio de luxo.',
     category: 'serralheria',
-    image: 'https://source.unsplash.com/random/1200x800/?windows,aluminum',
+    image: '/assets/temp-serralheria-1.jpg',
     additionalImages: [
-      'https://source.unsplash.com/random/1200x800/?door,design',
-      'https://source.unsplash.com/random/1200x800/?glass,modern'
+      '/assets/temp-serralheria-1a.jpg',
+      '/assets/temp-serralheria-1b.jpg',
+      '/assets/temp-serralheria-1c.jpg',
+      '/assets/temp-serralheria-1d.jpg',
+      '/assets/temp-serralheria-1e.jpg'
     ],
     location: 'Bertioga - SP',
-    year: '2023'
+    year: '2025'
   },
   {
     id: 5,
-    title: 'Guarda-corpo em Alumínio',
-    description: 'Guarda-corpo em alumínio com vidro temperado para garantir segurança sem comprometer a estética e a vista.',
+    title: 'Portas, Janelas e Guarda-corpo em Alumínio e Vidro',
+    description: 'Portas, janelas e guarda-corpo em alumínio com vidro temperado para garantir segurança sem comprometer a estética e a vista.',
     category: 'serralheria',
-    image: 'https://source.unsplash.com/random/1200x800/?railing,glass',
+    image: '/assets/temp-serralheria-2.jpg',
+    additionalImages: [
+      '/assets/temp-serralheria-2a.jpg',
+      '/assets/temp-serralheria-2b.jpg'
+    ],
     location: 'São Vicente - SP',
-    year: '2022'
+    year: '2024'
   },
   {
     id: 6,
-    title: 'Portão Residencial',
-    description: 'Portão em alumínio com acabamento premium, combinando segurança e design contemporâneo.',
+    title: 'Saunas de Luxo',
+    description: 'Sauna de Luxo com acabamento premium, combinando segurança e design contemporâneo.',
     category: 'serralheria',
-    image: 'https://source.unsplash.com/random/1200x800/?gate,modern',
+    image: '/assets/temp-serralheria-3.jpg',
+    additionalImages: [
+      '/assets/temp-serralheria-3a.jpg',
+      '/assets/temp-serralheria-3b.jpg'
+    ],
     location: 'Praia Grande - SP',
-    year: '2023'
+    year: '2024'
   },
 
   // Marmoraria
   {
     id: 7,
-    title: 'Bancadas de Cozinha em Granito',
-    description: 'Bancadas em granito preto São Gabriel para cozinha completa, incluindo ilha central e cuba esculpida.',
+    title: 'Bancadas de Cozinha e Pias em Mármore',
+    description: 'Bancadas em mármore para cozinha completa, incluindo ilha central e cubas esculpidas para banheiro.',
     category: 'marmoraria',
-    image: 'https://source.unsplash.com/random/1200x800/?countertop,kitchen',
+    image: '/assets/temp-marmoraria-1.jpg',
     additionalImages: [
-      'https://source.unsplash.com/random/1200x800/?sink,marble',
-      'https://source.unsplash.com/random/1200x800/?granite,kitchen'
+      '/assets/temp-marmoraria-1a.jpg',
+      '/assets/temp-marmoraria-1b.jpg',
+      '/assets/temp-marmoraria-1c.jpg',
     ],
-    location: 'Santos - SP',
-    year: '2022'
+    location: 'Bertioga - SP',
+    year: '2025'
   },
   {
     id: 8,
     title: 'Revestimento em Mármore',
-    description: 'Revestimento de parede em mármore Carrara para área de lazer de condomínio, trazendo sofisticação ao ambiente.',
+    description: 'Revestimento de parede, nichos, lareiras, painéis e pisos em mármore, trazendo estilo e sofisticação aos ambientes.',
     category: 'marmoraria',
-    image: 'https://source.unsplash.com/random/1200x800/?marble,wall',
+    image: '/assets/temp-marmoraria-2.jpg',
+    additionalImages: [
+      '/assets/temp-marmoraria-2a.jpg',
+      '/assets/temp-marmoraria-2b.jpg'
+    ],
     location: 'Guarujá - SP',
-    year: '2023'
+    year: '2024'
   },
   {
     id: 9,
-    title: 'Escada em Granito',
-    description: 'Escada revestida em granito branco com acabamento premium e iluminação embutida para maior segurança.',
+    title: 'Escada em Mármore',
+    description: 'Escada revestida em mármore para condomínio de luxo, com acabamento premium e iluminação embutida para maior segurança.',
     category: 'marmoraria',
-    image: 'https://source.unsplash.com/random/1200x800/?stairs,stone',
+    image: '/assets/temp-marmoraria-3.jpg',
+    additionalImages: [
+      '/assets/temp-marmoraria-3a.jpg',
+      '/assets/temp-marmoraria-3b.jpg',
+    ],
     location: 'Bertioga - SP',
-    year: '2022'
+    year: '2024'
   }
 ];
 
@@ -155,6 +185,9 @@ const Portfolio: React.FC = () => {
   // Estado para modal de visualização
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Estado para modal de contato
+  const [openContactModal, setOpenContactModal] = useState(false);
 
   // Filtrar projetos pela categoria selecionada
   const filteredProjects = currentCategory === 'all' 
@@ -207,10 +240,14 @@ const Portfolio: React.FC = () => {
     return selectedProject.image;
   };
 
+  // Funções para abrir e fechar o modal de contato
+  const handleOpenContactModal = () => setOpenContactModal(true);
+  const handleCloseContactModal = () => setOpenContactModal(false);
+
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       {/* Título da Página */}
-      <Box sx={{ textAlign: 'center', mb: 6 }}>
+      <Box sx={{ textAlign: 'center', mb: 6 }} id="portfolio-title">
         <Typography variant="h3" component="h1" gutterBottom>
           Nosso Portfólio
         </Typography>
@@ -254,58 +291,72 @@ const Portfolio: React.FC = () => {
             <Grid item xs={12} sm={6} md={4} key={project.id}>
               <Card 
                 sx={{ 
-                  height: '100%',
-                  display: 'flex',
+                  height: '100%', 
+                  display: 'flex', 
                   flexDirection: 'column',
-                  transition: 'transform 0.3s ease',
-                  cursor: 'pointer',
+                  transition: 'transform 0.2s',
                   '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: 6
+                    transform: 'scale(1.02)',
+                    cursor: 'pointer'
                   }
                 }}
                 onClick={() => handleOpenProject(project)}
               >
-                <CardMedia
-                  component="img"
-                  height={240}
-                  image={project.image}
-                  alt={project.title}
-                  sx={{ objectFit: 'cover' }}
-                />
-                <CardContent sx={{ flexGrow: 1, pb: 2 }}>
-                  <Typography variant="h6" component="h3" gutterBottom>
+                <Box sx={{ position: 'relative', paddingTop: '66.67%' }}>
+                  <CardMedia
+                    component="img"
+                    image={project.image}
+                    alt={project.title}
+                    sx={{ 
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </Box>
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h6" component="div">
                     {project.title}
                   </Typography>
-                  <Box sx={{ mb: 1 }}>
-                    <Chip
-                      label={categories.find(cat => cat.value === project.category)?.label || project.category}
-                      size="small"
-                      color="primary"
-                      variant="outlined"
-                      sx={{ mr: 1, mb: 1 }}
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    {project.description}
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                    <Chip 
+                      label={project.category} 
+                      size="small" 
+                      color="primary" 
                     />
                     {project.location && (
-                      <Chip
-                        label={project.location}
-                        size="small"
-                        sx={{ mr: 1, mb: 1 }}
+                      <Chip 
+                        label={project.location} 
+                        size="small" 
+                        variant="outlined" 
                       />
                     )}
                     {project.year && (
-                      <Chip
-                        label={project.year}
-                        size="small"
-                        sx={{ mb: 1 }}
+                      <Chip 
+                        label={project.year} 
+                        size="small" 
+                        variant="outlined" 
                       />
                     )}
                   </Box>
-                  <Typography variant="body2" color="text.secondary">
-                    {project.description.length > 100 
-                      ? `${project.description.substring(0, 100)}...`
-                      : project.description
-                    }
-                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenContactModal();
+                    }}
+                    sx={{ mt: 1 }}
+                  >
+                    Solicitar Orçamento
+                  </Button>
                 </CardContent>
               </Card>
             </Grid>
@@ -321,25 +372,65 @@ const Portfolio: React.FC = () => {
         )}
       </Grid>
 
-      {/* Modal para visualização detalhada do projeto */}
+      {/* Call to Action */}
+      <Box
+        sx={{
+          bgcolor: 'primary.main',
+          color: 'white',
+          py: 6,
+          textAlign: 'center',
+          mt: 8,
+          borderRadius: 2
+        }}
+      >
+        <Container maxWidth="md">
+          <Typography variant="h4" component="h2" gutterBottom>
+            Gostou do que viu?
+          </Typography>
+          <Typography variant="body1" paragraph sx={{ mb: 4 }}>
+            Entre em contato conosco para discutir seu projeto e solicitar um orçamento.
+          </Typography>
+          <Button 
+            variant="contained" 
+            color="secondary"
+            size="large"
+            onClick={handleOpenContactModal}
+            sx={{ 
+              py: 1.5,
+              px: 4
+            }}
+          >
+            Solicitar Orçamento
+          </Button>
+        </Container>
+      </Box>
+
+      {/* Modal de Projeto */}
       <Dialog
-        open={!!selectedProject}
+        open={Boolean(selectedProject)}
         onClose={handleCloseProject}
         maxWidth="lg"
         fullWidth
-        fullScreen={isMobile}
+        PaperProps={{
+          sx: {
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            overflow: 'hidden',
+            maxHeight: '90vh'
+          }
+        }}
       >
         <DialogContent sx={{ p: 0, position: 'relative' }}>
           <IconButton
             onClick={handleCloseProject}
             sx={{
               position: 'absolute',
-              top: 8,
               right: 8,
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              top: 8,
+              bgcolor: 'rgba(0, 0, 0, 0.5)',
               color: 'white',
               '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                bgcolor: 'rgba(0, 0, 0, 0.7)',
               },
               zIndex: 1
             }}
@@ -347,98 +438,125 @@ const Portfolio: React.FC = () => {
             <CloseIcon />
           </IconButton>
 
-          {/* Navegação de imagens */}
-          {selectedProject?.additionalImages && selectedProject.additionalImages.length > 0 && (
-            <>
-              <IconButton
-                onClick={handlePrevImage}
-                sx={{
-                  position: 'absolute',
-                  left: 16,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                  },
-                  zIndex: 1
-                }}
-              >
-                <ArrowBackIosNewIcon />
-              </IconButton>
-              <IconButton
-                onClick={handleNextImage}
-                sx={{
-                  position: 'absolute',
-                  right: 16,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                  },
-                  zIndex: 1
-                }}
-              >
-                <ArrowForwardIosIcon />
-              </IconButton>
-            </>
-          )}
+          {selectedProject && (
+            <Grid container>
+              {/* Coluna da Imagem */}
+              <Grid item xs={12} md={7}>
+                <Box sx={{ position: 'relative' }}>
+                  <Box sx={{ position: 'relative', paddingTop: '66.67%' }}>
+                    <Box
+                      component="img"
+                      src={getCurrentImage()}
+                      alt={selectedProject.title}
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        bgcolor: 'black'
+                      }}
+                    />
+                  </Box>
 
-          <Box sx={{ maxHeight: '70vh', display: 'flex', flexDirection: 'column' }}>
-            <Box 
-              sx={{ 
-                height: '60vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'black'
-              }}
-            >
-              <Box
-                component="img"
-                src={getCurrentImage()}
-                alt={selectedProject?.title}
-                sx={{
-                  maxHeight: '100%',
-                  maxWidth: '100%',
-                  objectFit: 'contain'
-                }}
-              />
-            </Box>
-            <Box sx={{ p: 3 }}>
-              <Typography variant="h5" component="h2" gutterBottom>
-                {selectedProject?.title}
-              </Typography>
-              <Box sx={{ mb: 2 }}>
-                <Chip
-                  label={categories.find(cat => cat.value === selectedProject?.category)?.label || selectedProject?.category}
-                  color="primary"
-                  sx={{ mr: 1, mb: 1 }}
-                />
-                {selectedProject?.location && (
-                  <Chip label={selectedProject.location} sx={{ mr: 1, mb: 1 }} />
-                )}
-                {selectedProject?.year && (
-                  <Chip label={selectedProject.year} sx={{ mb: 1 }} />
-                )}
-              </Box>
-              <Typography variant="body1" paragraph>
-                {selectedProject?.description}
-              </Typography>
-              <Button 
-                variant="contained" 
-                color="primary"
-                href="/contato"
-              >
-                Quero um projeto similar
-              </Button>
-            </Box>
-          </Box>
+                  {selectedProject.additionalImages && selectedProject.additionalImages.length > 0 && (
+                    <>
+                      <IconButton
+                        onClick={handlePrevImage}
+                        sx={{
+                          position: 'absolute',
+                          left: 8,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          bgcolor: 'rgba(0, 0, 0, 0.5)',
+                          color: 'white',
+                          '&:hover': {
+                            bgcolor: 'rgba(0, 0, 0, 0.7)',
+                          },
+                          zIndex: 1
+                        }}
+                      >
+                        <ArrowBackIosNewIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={handleNextImage}
+                        sx={{
+                          position: 'absolute',
+                          right: 8,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          bgcolor: 'rgba(0, 0, 0, 0.5)',
+                          color: 'white',
+                          '&:hover': {
+                            bgcolor: 'rgba(0, 0, 0, 0.7)',
+                          },
+                          zIndex: 1
+                        }}
+                      >
+                        <ArrowForwardIosIcon />
+                      </IconButton>
+                    </>
+                  )}
+                </Box>
+              </Grid>
+
+              {/* Coluna das Informações */}
+              <Grid item xs={12} md={5}>
+                <Box sx={{ 
+                  p: 3, 
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}>
+                  <Box>
+                    <Typography variant="h4" gutterBottom>
+                      {selectedProject.title}
+                    </Typography>
+                    <Typography variant="body1" paragraph>
+                      {selectedProject.description}
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                      <Chip 
+                        label={selectedProject.category} 
+                        color="primary" 
+                      />
+                      {selectedProject.location && (
+                        <Chip 
+                          label={selectedProject.location} 
+                          variant="outlined" 
+                        />
+                      )}
+                      {selectedProject.year && (
+                        <Chip 
+                          label={selectedProject.year} 
+                          variant="outlined" 
+                        />
+                      )}
+                    </Box>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={handleOpenContactModal}
+                    sx={{ mt: 2 }}
+                  >
+                    Solicitar Orçamento
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          )}
         </DialogContent>
       </Dialog>
+
+      {/* Modal de Contato */}
+      <ContactModal 
+        open={openContactModal}
+        onClose={handleCloseContactModal}
+      />
     </Container>
   );
 };

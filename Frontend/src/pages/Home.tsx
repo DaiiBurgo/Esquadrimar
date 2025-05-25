@@ -13,15 +13,19 @@ import {
   Modal,
   Paper,
   IconButton,
-  Stack
+  Stack,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import BuildIcon from '@mui/icons-material/Build';
-import HandymanIcon from '@mui/icons-material/Handyman';
-import WeekendIcon from '@mui/icons-material/Weekend';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CarpenterIcon from '@mui/icons-material/Carpenter';
 import CloseIcon from '@mui/icons-material/Close';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
+import { motion } from 'framer-motion';
+import ContactModal from '../components/contact/ContactModal';
 
 // Caminho do vídeo no diretório público
 const bannerVideoPath = `${process.env.PUBLIC_URL}/assets/esquadrimar-new-video.mp4`;
@@ -37,31 +41,31 @@ const marmorariaImgUrl = `${process.env.PUBLIC_URL}/assets/marmoraria-temp.jpg`;
 // URL do WhatsApp
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5513996227222&text=Olá!%20Vim%20pelo%20site%20da%20Esquadrimar%20e%20gostaria%20de%20solicitar%20um%20orçamento.';
 
-// Imagens para os serviços - substitua pelos caminhos reais
+// Dados dos serviços
 const services = [
   {
-    id: 1,
+    id: 'marcenaria',
     title: 'Marcenaria',
     description: 'Criamos móveis e estruturas de madeira personalizados, com acabamento impecável e design exclusivo.',
-    icon: <WeekendIcon fontSize="large" color="primary" />,
+    icon: <CarpenterIcon fontSize="large" color="primary" />,
     image: marcenariaImgUrl,
-    link: '/servicos/marcenaria'
+    link: '/servicos#marcenaria-details'
   },
   {
-    id: 2,
+    id: 'serralheria',
     title: 'Serralheria',
     description: 'Fabricamos produtos em aluminio como janelas, persianas, portas, grades, portões, muito mais, com resistência e durabilidade.',
-    icon: <BuildIcon fontSize="large" color="primary" />,
+    icon: <SquareFootIcon fontSize="large" color="primary" />,
     image: serralheriaImgUrl,
-    link: '/servicos/serralheria'
+    link: '/servicos#serralheria-details'
   },
   {
-    id: 3,
+    id: 'marmoraria',
     title: 'Marmoraria',
     description: 'Trabalhamos com mármores, granitos, laminas ultra-compactas e outras pedras para criar bancadas, pisos, revestimentos e peças exclusivas.',
-    icon: <HandymanIcon fontSize="large" color="primary" />,
+    icon: <AccountBalanceIcon fontSize="large" color="primary" />,
     image: marmorariaImgUrl,
-    link: '/servicos/marmoraria'
+    link: '/servicos#marmoraria-details'
   }
 ];
 
@@ -155,7 +159,6 @@ const Home: React.FC = () => {
         />
 
         {/* Logo sobreposta ao vídeo */}
-        {/* Comentado temporariamente para ver como fica o banner sem a logo
         <Box
           sx={{
             position: 'absolute',
@@ -184,7 +187,6 @@ const Home: React.FC = () => {
             }}
           />
         </Box>
-        */}
       </Box>
 
       {/* Sobre Nós - Resumo */}
@@ -202,7 +204,7 @@ const Home: React.FC = () => {
           </Typography>
           <Button 
             component={RouterLink} 
-            to="/sobre" 
+            to="/sobre#topo" 
             color="primary"
             sx={{ mt: 2 }}
           >
@@ -267,7 +269,7 @@ const Home: React.FC = () => {
               variant="contained" 
               color="primary"
               component={RouterLink}
-              to="/servicos"
+              to="/servicos#topo"
               size="large"
             >
               Ver todos os serviços
@@ -309,79 +311,10 @@ const Home: React.FC = () => {
       </Box>
 
       {/* Modal de Contato */}
-      <Modal
+      <ContactModal 
         open={openContactModal}
         onClose={handleCloseContactModal}
-        aria-labelledby="modal-contact"
-        aria-describedby="modal-contact-options"
-      >
-        <Paper 
-          sx={{ 
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: { xs: '90%', sm: 400 },
-            bgcolor: 'background.paper',
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-            outline: 'none'
-          }}
-        >
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h5" component="h2" id="modal-contact">
-              Como prefere entrar em contato?
-            </Typography>
-            <IconButton onClick={handleCloseContactModal} aria-label="fechar">
-              <CloseIcon />
-            </IconButton>
-          </Box>
-          
-          <Divider sx={{ mb: 3 }} />
-
-          <Stack spacing={2}>
-            <Button
-              variant="contained"
-              color="success"
-              size="large"
-              startIcon={<WhatsAppIcon />}
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              fullWidth
-              sx={{ py: 1.5 }}
-            >
-              Conversar pelo WhatsApp
-            </Button>
-            
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              startIcon={<EmailIcon />}
-              component={RouterLink}
-              to={{
-                pathname: "/contato",
-                hash: "#formulario-contato"
-              }}
-              onClick={() => {
-                handleCloseContactModal();
-                setTimeout(() => {
-                  const element = document.getElementById('formulario-contato');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
-                }, 100);
-              }}
-              fullWidth
-              sx={{ py: 1.5 }}
-            >
-              Enviar mensagem de e-mail
-            </Button>
-          </Stack>
-        </Paper>
-      </Modal>
+      />
     </Box>
   );
 };

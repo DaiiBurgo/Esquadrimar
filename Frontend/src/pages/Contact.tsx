@@ -120,7 +120,7 @@ const Contact: React.FC = () => {
         <Paper elevation={3} sx={{ overflow: 'hidden', p: 0 }}>
           <Box sx={{ p: 3, pb: 0 }}>
             <Typography variant="body1" paragraph>
-              Estamos localizados na Av. Vista Linda, bairro Vista Linda em Bertioga/SP.
+              Estamos localizados no bairro Chácaras em Bertioga/SP.
               Visite nosso showroom para conhecer nossos produtos de alta qualidade.
             </Typography>
           </Box>

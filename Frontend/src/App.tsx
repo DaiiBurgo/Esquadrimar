@@ -70,8 +70,6 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
-  console.log('App component rendered');
-  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
